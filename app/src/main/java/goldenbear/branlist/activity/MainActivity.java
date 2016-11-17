@@ -23,23 +23,23 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import goldenbear.branlist.R;
 import goldenbear.branlist.fragment.HomeFragment;
+import goldenbear.branlist.others.ParseWrapper;
 
 public class MainActivity extends AppCompatActivity {
+    private static final String urlNavHeaderBg = "https://lh4.googleusercontent.com/tGY2bObR-IqBcevdPmi-pRTbtwtoyT80lB20c-eV9lrjYFObxJYvKiBvDGqAK8AyefN__qMUHWcsKCA=w2560-h1310";
+    private static final String urlProfileImg = "https://lh5.googleusercontent.com/_SuV6753USeCi81ivvBJtmhUkCf1crNB2X0WzqrCmrhlzAkxLFSTzC_LMO8qs-gfJiSRSKpW5x07ZV0=w2560-h1310-rw";
     private NavigationView navigationView;
     private DrawerLayout drawer;
     private View navHeader;
     private ActionBarDrawerToggle drawerToggle;
     private Toolbar toolbar;
     private FloatingActionButton fab;
-
     // Navigation header vars
     private ImageView imgNavHeaderBg, imgProfile;
     private TextView txtName, txtEmail;
-
-    private static final String urlNavHeaderBg = "https://lh4.googleusercontent.com/tGY2bObR-IqBcevdPmi-pRTbtwtoyT80lB20c-eV9lrjYFObxJYvKiBvDGqAK8AyefN__qMUHWcsKCA=w2560-h1310";
-    private static final String urlProfileImg = "https://lh5.googleusercontent.com/_SuV6753USeCi81ivvBJtmhUkCf1crNB2X0WzqrCmrhlzAkxLFSTzC_LMO8qs-gfJiSRSKpW5x07ZV0=w2560-h1310-rw";
-
     private Handler mHandler;
+
+    private ParseWrapper parseWrapper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mHandler = new Handler();
-
+        parseWrapper = ParseWrapper.getInstance();
         initView();
     }
 
@@ -89,7 +89,6 @@ public class MainActivity extends AppCompatActivity {
                 //invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }
         };
-
         loadHomeFragment();
     }
 
