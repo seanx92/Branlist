@@ -1,4 +1,4 @@
-package goldenbear.branlist.others;
+package goldenbear.branlist.utils;
 
 /**
  * Created by metaphoenix on 11/16/16.

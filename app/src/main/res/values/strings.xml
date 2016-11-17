@@ -11,4 +11,7 @@
 
     <string name="parse_app_id">branlist</string>
     <string name="parse_server">https://branlist-parse.herokuapp.com/parse/</string>
+
+    <string name="title_hint">Title</string>
+    <string name="description_hint">Enter description here.</string>
 </resources>

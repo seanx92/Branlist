@@ -12,4 +12,6 @@
     <dimen name="profile_width">75dp</dimen>
     <dimen name="profile_height">75dp</dimen>
     <dimen name="text_margin">16dp</dimen>
+
+    <dimen name="edit_post_description_height">300dp</dimen>
 </resources>
