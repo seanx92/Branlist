@@ -9,17 +9,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
+
+import com.parse.ParseObject;
+import com.parse.ParseQueryAdapter;
 
 import goldenbear.branlist.R;
-import goldenbear.branlist.TaskTrackerAdapter;
 import goldenbear.branlist.post.PostActivity;
 
 public class HomeFragment extends Fragment implements HomeContract.View {
 
+    ParseQueryAdapter<ParseObject> postAdapter;
     private HomeContract.Controller mController;
-
-    private ListView taskList;
-    private TaskTrackerAdapter taskTrackerAdapter;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -45,10 +46,25 @@ public class HomeFragment extends Fragment implements HomeContract.View {
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.home_frag, container, false);
 
-        // Init task list
-        taskList = (ListView) root.findViewById(R.id.taskList);
-        taskTrackerAdapter = new TaskTrackerAdapter(this.getActivity(), true);
-        taskList.setAdapter(taskTrackerAdapter);
+        // Init post list
+        postAdapter = new ParseQueryAdapter<ParseObject>(this.getActivity(), "Post") {
+            @Override
+            public View getItemView(ParseObject object, View v, ViewGroup parent) {
+                if (v == null) {
+                    v = View.inflate(getContext(), R.layout.post_row, null);
+                }
+                super.getItemView(object, v, parent);
+
+                TextView titleView = (TextView) v.findViewById(R.id.title_entry);
+                titleView.setText(object.getString("title"));
+
+                TextView submitterView = (TextView) v.findViewById(R.id.submitter_entry);
+                submitterView.setText(object.getString("submitter"));
+                return v;
+            }
+        };
+        ListView postList = (ListView) root.findViewById(R.id.post_list);
+        postList.setAdapter(postAdapter);
 
         // Set up floating action button
         FloatingActionButton fab =
@@ -66,5 +82,15 @@ public class HomeFragment extends Fragment implements HomeContract.View {
     public void showAddPost() {
         Intent intent = new Intent(getContext(), PostActivity.class);
         startActivityForResult(intent, PostActivity.REQUEST_ADD_POST);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        mController.result(requestCode, resultCode);
+    }
+
+    @Override
+    public void refreshPost() {
+        postAdapter.loadObjects();
     }
 }

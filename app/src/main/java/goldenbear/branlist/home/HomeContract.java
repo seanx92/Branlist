@@ -10,9 +10,13 @@ public interface HomeContract {
 
     interface View extends BaseView<Controller> {
         void showAddPost();
+
+        void refreshPost();
     }
 
     interface Controller extends BaseController {
         void addNewPost();
+
+        void result(int requestCode, int resultCode);
     }
 }

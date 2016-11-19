@@ -1,5 +1,6 @@
 package goldenbear.branlist.post;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -7,9 +8,13 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import goldenbear.branlist.R;
+import goldenbear.branlist.data.Post;
 
 /**
  * Created by metaphoenix on 11/17/16.
@@ -21,6 +26,10 @@ public class EditPostFragment extends Fragment implements PostContract.View {
     private TextView mTitle;
 
     private TextView mDescription;
+
+    private Spinner mType;
+
+    private View root;
 
     public EditPostFragment() {
         // Required empty public constructor
@@ -44,6 +53,25 @@ public class EditPostFragment extends Fragment implements PostContract.View {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        Button mSaveButton = (Button) getActivity().findViewById(R.id.edit_post_save);
+        mSaveButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Post.Type type = (Post.Type) mType.getSelectedItem();
+                mController.savePost(mTitle.getText().toString(),
+                        mDescription.getText().toString(), type);
+                getActivity().setResult(Activity.RESULT_OK);
+                getActivity().finish();
+            }
+        });
+
+        Button mCancelButton = (Button) getActivity().findViewById(R.id.edit_post_cancel);
+        mCancelButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                getActivity().setResult(Activity.RESULT_CANCELED);
+                getActivity().finish();
+            }
+        });
     }
 
     @Nullable
@@ -54,6 +82,14 @@ public class EditPostFragment extends Fragment implements PostContract.View {
         mTitle = (TextView) root.findViewById(R.id.edit_post_title);
         mDescription = (TextView) root.findViewById(R.id.edit_post_description);
 
+        mType = (Spinner) root.findViewById(R.id.edit_post_type);
+        //ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this.getContext(),
+        //        R.array.post_type_array, android.R.layout.simple_spinner_dropdown_item);
+        //adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mType.setAdapter(new ArrayAdapter<>(getContext(),
+                android.R.layout.simple_spinner_dropdown_item, Post.Type.values()));
+
         return root;
     }
+
 }
