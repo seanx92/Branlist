@@ -14,4 +14,9 @@
     <dimen name="text_margin">16dp</dimen>
 
     <dimen name="edit_post_description_height">300dp</dimen>
+
+    <!-- Post card dimen -->
+    <dimen name="cardHeight">100dp</dimen>
+    <dimen name="cardMarginHorizontal">10dp</dimen>
+    <dimen name="cardMarginVertical">8dp</dimen>
 </resources>

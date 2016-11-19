@@ -1,4 +1,4 @@
-package goldenbear.branlist.post;
+package goldenbear.branlist.post.edit;
 
 import android.support.annotation.NonNull;
 
@@ -8,11 +8,11 @@ import goldenbear.branlist.utils.ParseHelper;
 /**
  * Created by metaphoenix on 11/17/16.
  */
-public class EditPostController implements PostContract.Controller {
+public class EditPostController implements EditPostContract.Controller {
 
-    private final PostContract.View mPostView;
+    private final EditPostContract.View mPostView;
 
-    public EditPostController(@NonNull PostContract.View postView) {
+    public EditPostController(@NonNull EditPostContract.View postView) {
         mPostView = postView;
         mPostView.setController(this);
     }

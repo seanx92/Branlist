@@ -5,22 +5,30 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
-import android.widget.TextView;
 
+import com.github.florent37.materialviewpager.MaterialViewPager;
 import com.parse.ParseObject;
 import com.parse.ParseQueryAdapter;
 
 import goldenbear.branlist.R;
+import goldenbear.branlist.data.Post;
 import goldenbear.branlist.post.PostActivity;
+import goldenbear.branlist.post.recycler.RecyclerViewFragment;
 
 public class HomeFragment extends Fragment implements HomeContract.View {
 
     ParseQueryAdapter<ParseObject> postAdapter;
     private HomeContract.Controller mController;
+    private MaterialViewPager mViewPager;
+
+    private RecyclerViewFragment recyclerViewFragment;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -38,6 +46,7 @@ public class HomeFragment extends Fragment implements HomeContract.View {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -46,25 +55,39 @@ public class HomeFragment extends Fragment implements HomeContract.View {
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.home_frag, container, false);
 
-        // Init post list
-        postAdapter = new ParseQueryAdapter<ParseObject>(this.getActivity(), "Post") {
+        mViewPager = (MaterialViewPager) root.findViewById(R.id.view_pager);
+        Toolbar toolbar = mViewPager.getToolbar();
+
+        if (toolbar != null) {
+            ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+            ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
+        }
+
+        mViewPager.getViewPager().setAdapter(new FragmentStatePagerAdapter(getFragmentManager()) {
             @Override
-            public View getItemView(ParseObject object, View v, ViewGroup parent) {
-                if (v == null) {
-                    v = View.inflate(getContext(), R.layout.post_row, null);
-                }
-                super.getItemView(object, v, parent);
-
-                TextView titleView = (TextView) v.findViewById(R.id.title_entry);
-                titleView.setText(object.getString("title"));
-
-                TextView submitterView = (TextView) v.findViewById(R.id.submitter_entry);
-                submitterView.setText(object.getString("submitter"));
-                return v;
+            public Fragment getItem(int position) {
+                recyclerViewFragment = RecyclerViewFragment.newInstance();
+                return recyclerViewFragment;
             }
-        };
-        ListView postList = (ListView) root.findViewById(R.id.post_list);
-        postList.setAdapter(postAdapter);
+
+            @Override
+            public int getCount() {
+                return Post.Type.values().length + 1;
+            }
+
+            @Override
+            public CharSequence getPageTitle(int position) {
+                if (position == 0) {
+                    return "All";
+                } else {
+                    return Post.Type.values()[position - 1].toString();
+                }
+            }
+        });
+
+        mViewPager.getViewPager().setOffscreenPageLimit(mViewPager.getViewPager().getAdapter().getCount());
+        mViewPager.getPagerTitleStrip().setViewPager(mViewPager.getViewPager());
 
         // Set up floating action button
         FloatingActionButton fab =
@@ -89,8 +112,7 @@ public class HomeFragment extends Fragment implements HomeContract.View {
         mController.result(requestCode, resultCode);
     }
 
-    @Override
     public void refreshPost() {
-        postAdapter.loadObjects();
+        recyclerViewFragment.refreshPost();
     }
 }

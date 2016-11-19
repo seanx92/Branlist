@@ -1,4 +1,4 @@
-package goldenbear.branlist.post;
+package goldenbear.branlist.post.edit;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -19,9 +19,9 @@ import goldenbear.branlist.data.Post;
 /**
  * Created by metaphoenix on 11/17/16.
  */
-public class EditPostFragment extends Fragment implements PostContract.View {
+public class EditPostFragment extends Fragment implements EditPostContract.View {
 
-    private PostContract.Controller mController;
+    private EditPostContract.Controller mController;
 
     private TextView mTitle;
 
@@ -46,7 +46,7 @@ public class EditPostFragment extends Fragment implements PostContract.View {
     }
 
     @Override
-    public void setController(@NonNull PostContract.Controller controller) {
+    public void setController(@NonNull EditPostContract.Controller controller) {
         mController = controller;
     }
 

@@ -8,6 +8,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import goldenbear.branlist.R;
+import goldenbear.branlist.post.edit.EditPostController;
+import goldenbear.branlist.post.edit.EditPostFragment;
 import goldenbear.branlist.utils.ActivityUtils;
 
 public class PostActivity extends AppCompatActivity {
