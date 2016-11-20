@@ -1,4 +1,4 @@
-package goldenbear.branlist.base;
+package goldenbear.branlist.basetemplate;
 
 import java.util.Map;
 

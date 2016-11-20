@@ -1,4 +1,4 @@
-package goldenbear.branlist.data;
+package goldenbear.branlist.data.post;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import goldenbear.branlist.base.BaseParseObject;
+import goldenbear.branlist.basetemplate.BaseParseObject;
 
 /**
  * Created by metaphoenix on 11/17/16.
@@ -24,13 +24,13 @@ public final class Post implements BaseParseObject {
     private final String mDescription;
 
     @NonNull
-    private final Type mType;
+    private final PostType mType;
     @NonNull
     private final String mSubmitter;
-    @NonNull
+
     private Date mDate;
 
-    public Post(@NonNull String title, @Nullable String description, @NonNull Type type,
+    public Post(@NonNull String title, @Nullable String description, @NonNull PostType type,
                 @NonNull String submitter) {
         mTitle = title;
         mDescription = description;
@@ -55,7 +55,7 @@ public final class Post implements BaseParseObject {
     }
 
     @NonNull
-    public Type getType() {
+    public PostType getType() {
         return mType;
     }
 
@@ -85,23 +85,7 @@ public final class Post implements BaseParseObject {
         return "Post";
     }
 
-    public enum Type {
-        SERVICES("Services"),
-        SALE("Sales"),
-        JOBS("Jobs"),
-        HOUSING("Housing"),
-        ACTIVITIES("Activities"),
-        OTHERS("Others");
+    public class Filter {
 
-        private String type;
-
-        Type(String type) {
-            this.type = type;
-        }
-
-        @Override
-        public String toString() {
-            return type;
-        }
     }
 }

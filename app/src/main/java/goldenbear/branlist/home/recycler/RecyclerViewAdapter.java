@@ -1,4 +1,4 @@
-package goldenbear.branlist.post.recycler;
+package goldenbear.branlist.home.recycler;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -13,6 +13,8 @@ import com.parse.ParseQueryAdapter;
 import java.util.List;
 
 import goldenbear.branlist.R;
+import goldenbear.branlist.basetemplate.BaseParseQueryFilter;
+import goldenbear.branlist.utils.ParseHelper;
 
 /**
  * Created by metaphoenix on 11/19/16.
@@ -25,10 +27,12 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     private RecyclerViewAdapter recyclerViewAdapter = this;
 
-    public RecyclerViewAdapter(Context context, ViewGroup parentIn) {
+    public RecyclerViewAdapter(Context context, ViewGroup parentIn, BaseParseQueryFilter filter) {
         parseParent = parentIn;
 
-        parseAdapter = new ParseQueryAdapter<ParseObject>(context, "Post") {
+        ParseQueryAdapter.QueryFactory<ParseObject> queryFactory =
+                ParseHelper.getQueryFactory(filter);
+        parseAdapter = new ParseQueryAdapter<ParseObject>(context, queryFactory) {
             @Override
             public View getItemView(ParseObject object, View v, ViewGroup parent) {
                 if (v == null) {

@@ -14,7 +14,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import goldenbear.branlist.R;
-import goldenbear.branlist.data.Post;
+import goldenbear.branlist.data.post.PostType;
 
 /**
  * Created by metaphoenix on 11/17/16.
@@ -57,7 +57,7 @@ public class EditPostFragment extends Fragment implements EditPostContract.View 
         Button mSaveButton = (Button) getActivity().findViewById(R.id.edit_post_save);
         mSaveButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Post.Type type = (Post.Type) mType.getSelectedItem();
+                PostType type = (PostType) mType.getSelectedItem();
                 mController.savePost(mTitle.getText().toString(),
                         mDescription.getText().toString(), type);
                 getActivity().setResult(Activity.RESULT_OK);
@@ -87,7 +87,7 @@ public class EditPostFragment extends Fragment implements EditPostContract.View 
         //        R.array.post_type_array, android.R.layout.simple_spinner_dropdown_item);
         //adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mType.setAdapter(new ArrayAdapter<>(getContext(),
-                android.R.layout.simple_spinner_dropdown_item, Post.Type.values()));
+                android.R.layout.simple_spinner_dropdown_item, PostType.values()));
 
         return root;
     }

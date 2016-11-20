@@ -1,7 +1,7 @@
 package goldenbear.branlist.home;
 
-import goldenbear.branlist.base.BaseController;
-import goldenbear.branlist.base.BaseView;
+import goldenbear.branlist.basetemplate.BaseController;
+import goldenbear.branlist.basetemplate.BaseView;
 
 /**
  * Created by metaphoenix on 11/17/16.

@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -14,24 +15,24 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.github.florent37.materialviewpager.MaterialViewPager;
-import com.parse.ParseObject;
-import com.parse.ParseQueryAdapter;
 
 import goldenbear.branlist.R;
-import goldenbear.branlist.data.Post;
+import goldenbear.branlist.data.post.PostType;
+import goldenbear.branlist.home.recycler.RecyclerViewFragment;
 import goldenbear.branlist.post.PostActivity;
-import goldenbear.branlist.post.recycler.RecyclerViewFragment;
 
 public class HomeFragment extends Fragment implements HomeContract.View {
 
-    ParseQueryAdapter<ParseObject> postAdapter;
     private HomeContract.Controller mController;
     private MaterialViewPager mViewPager;
 
-    private RecyclerViewFragment recyclerViewFragment;
+    private RecyclerViewFragment[] recyclerViewFragments;
+    private int currentPage;
 
     public HomeFragment() {
         // Required empty public constructor
+
+        recyclerViewFragments = new RecyclerViewFragment[PostType.values().length + 1];
     }
 
     public static HomeFragment newInstance() {
@@ -67,13 +68,15 @@ public class HomeFragment extends Fragment implements HomeContract.View {
         mViewPager.getViewPager().setAdapter(new FragmentStatePagerAdapter(getFragmentManager()) {
             @Override
             public Fragment getItem(int position) {
-                recyclerViewFragment = RecyclerViewFragment.newInstance();
-                return recyclerViewFragment;
+                if (recyclerViewFragments[position] == null) {
+                    recyclerViewFragments[position] = RecyclerViewFragment.newInstance(position);
+                }
+                return recyclerViewFragments[position];
             }
 
             @Override
             public int getCount() {
-                return Post.Type.values().length + 1;
+                return PostType.values().length + 1;
             }
 
             @Override
@@ -81,13 +84,20 @@ public class HomeFragment extends Fragment implements HomeContract.View {
                 if (position == 0) {
                     return "All";
                 } else {
-                    return Post.Type.values()[position - 1].toString();
+                    return PostType.values()[position - 1].toString();
                 }
             }
         });
 
         mViewPager.getViewPager().setOffscreenPageLimit(mViewPager.getViewPager().getAdapter().getCount());
         mViewPager.getPagerTitleStrip().setViewPager(mViewPager.getViewPager());
+        mViewPager.getViewPager().addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+            @Override
+            public void onPageSelected(int position) {
+                currentPage = position;
+                refreshPost();
+            }
+        });
 
         // Set up floating action button
         FloatingActionButton fab =
@@ -113,6 +123,6 @@ public class HomeFragment extends Fragment implements HomeContract.View {
     }
 
     public void refreshPost() {
-        recyclerViewFragment.refreshPost();
+        recyclerViewFragments[currentPage].refreshPost();
     }
 }
