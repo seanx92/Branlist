@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.github.florent37.materialviewpager.MaterialViewPager;
+import com.github.florent37.materialviewpager.header.HeaderDesign;
 
 import goldenbear.branlist.R;
 import goldenbear.branlist.data.post.PostType;
@@ -63,6 +64,11 @@ public class HomeFragment extends Fragment implements HomeContract.View {
             ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
             ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
             actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setDisplayShowHomeEnabled(true);
+            actionBar.setDisplayShowTitleEnabled(true);
+            actionBar.setDisplayUseLogoEnabled(false);
+            actionBar.setHomeButtonEnabled(true);
         }
 
         mViewPager.getViewPager().setAdapter(new FragmentStatePagerAdapter(getFragmentManager()) {
@@ -86,6 +92,23 @@ public class HomeFragment extends Fragment implements HomeContract.View {
                 } else {
                     return PostType.values()[position - 1].toString();
                 }
+            }
+        });
+
+        mViewPager.setMaterialViewPagerListener(new MaterialViewPager.Listener() {
+            @Override
+            public HeaderDesign getHeaderDesign(int page) {
+                switch (page) {
+                    case 0:
+                        return HeaderDesign.fromColorResAndUrl(R.color.blue, "");
+                    case 1:
+                        return HeaderDesign.fromColorResAndUrl(R.color.green, "");
+                    case 2:
+                        return HeaderDesign.fromColorResAndUrl(R.color.cyan, "");
+                    case 3:
+                        return HeaderDesign.fromColorResAndUrl(R.color.red, "");
+                }
+                return null;
             }
         });
 

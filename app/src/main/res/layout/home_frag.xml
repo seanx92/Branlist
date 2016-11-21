@@ -15,16 +15,10 @@
         app:viewpager_headerAdditionalHeight="20dp"
         app:viewpager_headerAlpha="1.0"
         app:viewpager_headerHeight="200dp"
-        app:viewpager_hideLogoWithFade="false"
+        app:viewpager_hideLogoWithFade="true"
         app:viewpager_hideToolbarAndTitle="true"
         app:viewpager_logo="@layout/header_logo"
         app:viewpager_logoMarginTop="100dp"
         app:viewpager_parallaxHeaderFactor="1.5"
         app:viewpager_transparentToolbar="true" />
-
-    <!--
-    <ListView
-        android:id="@+id/post_list"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />-->
 </FrameLayout>

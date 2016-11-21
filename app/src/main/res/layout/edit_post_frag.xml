@@ -35,7 +35,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingRight="@dimen/activity_horizontal_margin"
-                    android:text="Post type:" />
+                    android:text="Post type" />
 
                 <Spinner
                     android:id="@+id/edit_post_type"
