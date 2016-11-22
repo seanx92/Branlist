@@ -17,6 +17,9 @@
     <item android:title="Other">
         <menu>
             <item
+                android:id="@+id/nav_logout"
+                android:title="Log out" />
+            <item
                 android:id="@+id/nav_about_us"
                 android:title="@string/nav_about_us" />
         </menu>

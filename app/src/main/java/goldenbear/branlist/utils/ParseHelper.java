@@ -63,4 +63,8 @@ public class ParseHelper {
             Log.e("ParseException", e.toString());
         }
     }
+
+    public static void logout() {
+        ParseUser.logOut();
+    }
 }

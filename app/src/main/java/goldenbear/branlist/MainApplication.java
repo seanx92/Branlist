@@ -3,6 +3,7 @@ package goldenbear.branlist;
 import android.app.Application;
 
 import com.parse.Parse;
+import com.parse.ParseFacebookUtils;
 
 /**
  * Created by metaphoenix on 11/17/16.
@@ -19,5 +20,6 @@ public class MainApplication extends Application {
         );
 
         Parse.setLogLevel(Parse.LOG_LEVEL_DEBUG);
+        ParseFacebookUtils.initialize(this);
     }
 }

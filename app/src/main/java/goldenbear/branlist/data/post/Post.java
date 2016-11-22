@@ -28,6 +28,16 @@ public final class Post extends BaseParseObject {
         return (String) keyValueMap.get("description");
     }
 
+    public String getBriefDescription(int maxChars) {
+        String description = getDescription();
+        description = description.trim();
+        if (description.length() < maxChars) {
+            return description;
+        } else {
+            return description.substring(0, maxChars - 1) + "...";
+        }
+    }
+
     public PostType getType() {
         return PostType.valueOf((String) keyValueMap.get("type"));
     }

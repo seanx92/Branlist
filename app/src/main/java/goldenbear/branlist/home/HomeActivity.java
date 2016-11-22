@@ -1,5 +1,7 @@
 package goldenbear.branlist.home;
 
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -10,6 +12,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import goldenbear.branlist.R;
+import goldenbear.branlist.login.DispatchActivity;
 import goldenbear.branlist.utils.ActivityUtils;
 import goldenbear.branlist.utils.ParseHelper;
 
@@ -38,10 +41,8 @@ public class HomeActivity extends AppCompatActivity {
         drawerLayout.setStatusBarBackground(R.color.colorPrimaryDark);
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         if (navigationView != null) {
-            setupDrawerContent(navigationView);
+            setupNavigationView();
         }
-
-        setupNavigationView();
 
         //Fill the fragment
         HomeFragment homeFragment =
@@ -75,29 +76,31 @@ public class HomeActivity extends AppCompatActivity {
                     case R.id.nav_about_us:
                         // do something
                         break;
+                    case R.id.nav_logout:
+                        logout();
+                        break;
                     default:
                         // do something
                 }
+                // Close the navigation drawer when an item is selected.
+                menuItem.setChecked(true);
+                drawerLayout.closeDrawers();
                 return true;
             }
         });
     }
 
-    private void setupDrawerContent(NavigationView navigationView) {
-        navigationView.setNavigationItemSelectedListener(
-                new NavigationView.OnNavigationItemSelectedListener() {
-                    @Override
-                    public boolean onNavigationItemSelected(MenuItem menuItem) {
-                        switch (menuItem.getItemId()) {
-                            default:
-                                break;
-                        }
-                        // Close the navigation drawer when an item is selected.
-                        menuItem.setChecked(true);
-                        drawerLayout.closeDrawers();
-                        return true;
-                    }
-                });
+    private void logout() {
+        ParseHelper.logout();
+        // FLAG_ACTIVITY_CLEAR_TASK only works on API 11, so if the user
+        // logs out on older devices, we'll just exit.
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            Intent intent = new Intent(HomeActivity.this, DispatchActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        } else {
+            finish();
+        }
     }
 
     @Override
