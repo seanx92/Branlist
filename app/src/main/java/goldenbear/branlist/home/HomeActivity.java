@@ -7,13 +7,16 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import goldenbear.branlist.R;
 import goldenbear.branlist.utils.ActivityUtils;
+import goldenbear.branlist.utils.ParseHelper;
 
 public class HomeActivity extends AppCompatActivity {
 
     private DrawerLayout drawerLayout;
+    private NavigationView navigationView;
 
     private HomeContract.Controller mHomeController;
 
@@ -33,10 +36,12 @@ public class HomeActivity extends AppCompatActivity {
         //Set up the navigation drawer.
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawerLayout.setStatusBarBackground(R.color.colorPrimaryDark);
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         if (navigationView != null) {
             setupDrawerContent(navigationView);
         }
+
+        setupNavigationView();
 
         //Fill the fragment
         HomeFragment homeFragment =
@@ -51,6 +56,31 @@ public class HomeActivity extends AppCompatActivity {
 
         //Create the controller
         mHomeController = new HomeController(homeFragment);
+    }
+
+    private void setupNavigationView() {
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(MenuItem menuItem) {
+                switch (menuItem.getItemId()) {
+                    case R.id.nav_home:
+                        // do something
+                        break;
+                    case R.id.nav_myprofiles:
+                        // do something
+                        break;
+                    case R.id.nav_myposts:
+                        // do something
+                        break;
+                    case R.id.nav_about_us:
+                        // do something
+                        break;
+                    default:
+                        // do something
+                }
+                return true;
+            }
+        });
     }
 
     private void setupDrawerContent(NavigationView navigationView) {
@@ -85,9 +115,17 @@ public class HomeActivity extends AppCompatActivity {
 
         switch (item.getItemId()) {
             case android.R.id.home:
+                setUserInfo();
                 drawerLayout.openDrawer(GravityCompat.START);
                 return true;
         }
         return false;
+    }
+
+    private void setUserInfo() {
+        TextView userNameView = (TextView) findViewById(R.id.profile_name);
+        TextView userEmailView = (TextView) findViewById(R.id.profile_email);
+        userNameView.setText(ParseHelper.getCurrentUser().getUsername());
+        userEmailView.setText(ParseHelper.getCurrentUser().getEmail());
     }
 }
