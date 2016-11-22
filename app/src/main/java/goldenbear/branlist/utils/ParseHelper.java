@@ -1,5 +1,8 @@
 package goldenbear.branlist.utils;
 
+import android.util.Log;
+
+import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
@@ -14,11 +17,6 @@ import goldenbear.branlist.basetemplate.BaseParseQueryFilter;
  * Created by metaphoenix on 11/16/16.
  */
 public class ParseHelper {
-    private static ParseHelper ourInstance = new ParseHelper();
-
-    private ParseHelper() {
-
-    }
 
     public static ParseUser getCurrentUser() {
         ParseUser currentUser = ParseUser.getCurrentUser();
@@ -56,7 +54,13 @@ public class ParseHelper {
         return queryFactory;
     }
 
-    public static ParseHelper getInstance() {
-        return ourInstance;
+    public static void getObject(BaseParseObject object, String objectId) {
+        ParseQuery parseQuery = new ParseQuery(object.getObjectName());
+        try {
+            ParseObject parseObject = parseQuery.get(objectId);
+            object.setAttributes(parseObject);
+        } catch (ParseException e) {
+            Log.e("ParseException", e.toString());
+        }
     }
 }

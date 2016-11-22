@@ -1,91 +1,50 @@
 package goldenbear.branlist.data.post;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import com.parse.ParseObject;
 
 import goldenbear.branlist.basetemplate.BaseParseObject;
 
 /**
  * Created by metaphoenix on 11/17/16.
  */
-public final class Post implements BaseParseObject {
-    @NonNull
-    private final String mId;
+public final class Post extends BaseParseObject {
 
-    @NonNull
-    private final String mTitle;
-
-    @Nullable
-    private final String mDescription;
-
-    @NonNull
-    private final PostType mType;
-    @NonNull
-    private final String mSubmitter;
-
-    private Date mDate;
-
-    public Post(@NonNull String title, @Nullable String description, @NonNull PostType type,
-                @NonNull String submitter) {
-        mTitle = title;
-        mDescription = description;
-        mType = type;
-        mSubmitter = submitter;
-        mId = UUID.randomUUID().toString();
+    public Post(String id, String title, String description, PostType type, String submitter) {
+        keyValueMap.put("title", title);
+        keyValueMap.put("description", description);
+        keyValueMap.put("type", (type == null) ? type : type.name());
+        keyValueMap.put("submitter", submitter);
     }
 
-    @NonNull
-    public String getId() {
-        return mId;
+    public Post() {
+        this(null, null, null, null, null);
     }
 
-    @NonNull
     public String getTitle() {
-        return mTitle;
+        return (String) keyValueMap.get("title");
     }
 
-    @Nullable
     public String getDescription() {
-        return mDescription;
+        return (String) keyValueMap.get("description");
     }
 
-    @NonNull
     public PostType getType() {
-        return mType;
+        return PostType.valueOf((String) keyValueMap.get("type"));
     }
 
-    @NonNull
-    public Date getDate() {
-        return mDate;
-    }
-
-    @NonNull
     public String getSubmitter() {
-        return mSubmitter;
-    }
-
-    public Map<String, Object> getMap() {
-        Map<String, Object> map = new HashMap<String, Object>();
-
-        map.put("id", mId);
-        map.put("title", mTitle);
-        map.put("description", mDescription);
-        map.put("type", mType.name());
-        map.put("submitter", mSubmitter);
-
-        return map;
+        return (String) keyValueMap.get("submitter");
     }
 
     public String getObjectName() {
         return "Post";
     }
 
-    public class Filter {
-
+    public void setAttributes(ParseObject parseObject) {
+        setTrivialAttributes(parseObject);
+        keyValueMap.put("title", parseObject.getString("title"));
+        keyValueMap.put("description", parseObject.getString("description"));
+        keyValueMap.put("type", parseObject.getString("type"));
+        keyValueMap.put("submitter", parseObject.getString("submitter"));
     }
 }

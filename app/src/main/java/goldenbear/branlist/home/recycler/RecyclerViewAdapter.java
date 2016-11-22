@@ -63,6 +63,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         parseAdapter.getView(position, holder.cardView, parseParent);
+        holder.setId(parseAdapter.getItem(position).getObjectId());
     }
 
     @Override
@@ -76,10 +77,20 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public View cardView;
+        private String mId;
 
         public ViewHolder(View v) {
             super(v);
+            v.setTag(this);
             cardView = v;
+        }
+
+        public String getId() {
+            return mId;
+        }
+
+        public void setId(String id) {
+            mId = id;
         }
     }
 

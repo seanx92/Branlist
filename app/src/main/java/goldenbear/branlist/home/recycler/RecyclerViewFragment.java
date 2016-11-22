@@ -2,6 +2,7 @@ package goldenbear.branlist.home.recycler;
 
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -16,6 +17,7 @@ import com.github.florent37.materialviewpager.header.MaterialViewPagerHeaderDeco
 import goldenbear.branlist.R;
 import goldenbear.branlist.data.post.PostFilter;
 import goldenbear.branlist.data.post.PostType;
+import goldenbear.branlist.home.HomeContract;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,21 +25,24 @@ import goldenbear.branlist.data.post.PostType;
 public class RecyclerViewFragment extends Fragment {
 
     static final boolean GRID_LAYOUT = false;
+    private HomeContract.Controller mController;
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
 
-    public static RecyclerViewFragment newInstance(int typeNum) {
+    public static RecyclerViewFragment newInstance(Bundle bundle) {
         RecyclerViewFragment f = new RecyclerViewFragment();
-
-        Bundle args = new Bundle();
-        args.putInt("postType", typeNum);
-        f.setArguments(args);
+        f.setArguments(bundle);
 
         return f;
     }
 
+    public void setController(@NonNull HomeContract.Controller controller) {
+        mController = controller;
+    }
+
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.recycler_view_frag, container, false);
     }
 
@@ -57,15 +62,32 @@ public class RecyclerViewFragment extends Fragment {
         mRecyclerView.addItemDecoration(new MaterialViewPagerHeaderDecorator());
 
         PostFilter postFilter = new PostFilter();
-        int typePosition = getArguments().getInt("postType");
-        if (typePosition > 0) {
-            postFilter.setTypeFilter(PostType.getTypeFromPosition(typePosition));
+        int pagePosition = getArguments().getInt("pagePosition");
+        if (pagePosition > 0) {
+            postFilter.setTypeFilter(PostType.getTypeFromPosition(pagePosition));
         }
         postFilter.setOrderByDescending("createdAt");
 
         mAdapter = new RecyclerViewAdapter(this.getContext(), mRecyclerView, postFilter);
 
         mRecyclerView.setAdapter(mAdapter);
+
+        mRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(this.getContext(),
+                        mRecyclerView, new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        RecyclerViewAdapter.ViewHolder holder =
+                                (RecyclerViewAdapter.ViewHolder) view.getTag();
+                        String id = holder.getId();
+                        mController.viewPost(id);
+                    }
+
+                    @Override
+                    public void onLongItemClick(View view, int position) {
+                        // do whatever
+                    }
+                })
+        );
     }
 
     public void refreshPost() {

@@ -13,7 +13,7 @@
     <dimen name="profile_height">75dp</dimen>
     <dimen name="text_margin">16dp</dimen>
 
-    <dimen name="edit_post_description_height">300dp</dimen>
+    <dimen name="post_description_height">300dp</dimen>
 
     <!-- Post card dimen -->
     <dimen name="cardHeight">100dp</dimen>

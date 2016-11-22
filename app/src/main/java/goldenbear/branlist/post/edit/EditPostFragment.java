@@ -23,13 +23,9 @@ public class EditPostFragment extends Fragment implements EditPostContract.View 
 
     private EditPostContract.Controller mController;
 
-    private TextView mTitle;
-
-    private TextView mDescription;
+    private TextView mTitle, mDescription;
 
     private Spinner mType;
-
-    private View root;
 
     public EditPostFragment() {
         // Required empty public constructor
@@ -83,9 +79,6 @@ public class EditPostFragment extends Fragment implements EditPostContract.View 
         mDescription = (TextView) root.findViewById(R.id.edit_post_description);
 
         mType = (Spinner) root.findViewById(R.id.edit_post_type);
-        //ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this.getContext(),
-        //        R.array.post_type_array, android.R.layout.simple_spinner_dropdown_item);
-        //adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mType.setAdapter(new ArrayAdapter<>(getContext(),
                 android.R.layout.simple_spinner_dropdown_item, PostType.values()));
 

@@ -10,13 +10,18 @@ import android.view.MenuItem;
 import goldenbear.branlist.R;
 import goldenbear.branlist.post.edit.EditPostController;
 import goldenbear.branlist.post.edit.EditPostFragment;
+import goldenbear.branlist.post.view.ViewPostController;
+import goldenbear.branlist.post.view.ViewPostFragment;
 import goldenbear.branlist.utils.ActivityUtils;
 
 public class PostActivity extends AppCompatActivity {
 
     public static final int REQUEST_ADD_POST = 1;
+    public static final int REQUEST_VIEW_POST = 2;
+    private ActionBar actionBar;
 
     private EditPostController mEditPostController;
+    private ViewPostController mViewPostController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,10 +31,39 @@ public class PostActivity extends AppCompatActivity {
         // Set up the toolbar.
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        ActionBar actionBar = getSupportActionBar();
+        actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowHomeEnabled(true);
 
+        Bundle bundle = getIntent().getExtras();
+        int requestCode = bundle.getInt("requestCode");
+        if (requestCode == REQUEST_ADD_POST) {
+            fillEditPostFragment();
+        } else if (requestCode == REQUEST_VIEW_POST) {
+            fillViewPostFragment(bundle);
+        }
+    }
+
+    private void fillViewPostFragment(Bundle bundle) {
+        // Fill the fragment
+        ViewPostFragment viewPostFragment =
+                (ViewPostFragment) getSupportFragmentManager().findFragmentById(R.id.contentFrame);
+
+        if (viewPostFragment == null) {
+            viewPostFragment = ViewPostFragment.newInstance(bundle);
+
+            actionBar.setTitle("Post");
+            ActivityUtils.addFragmentToActivity(getSupportFragmentManager(),
+                    viewPostFragment, R.id.contentFrame);
+        }
+
+        // Create the controller
+        mViewPostController = new ViewPostController(viewPostFragment);
+
+        viewPostFragment.setController(mViewPostController);
+    }
+
+    private void fillEditPostFragment() {
         // Fill the fragment
         EditPostFragment editPostFragment =
                 (EditPostFragment) getSupportFragmentManager().findFragmentById(R.id.contentFrame);

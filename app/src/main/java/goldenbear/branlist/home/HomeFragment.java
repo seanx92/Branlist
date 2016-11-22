@@ -75,7 +75,10 @@ public class HomeFragment extends Fragment implements HomeContract.View {
             @Override
             public Fragment getItem(int position) {
                 if (recyclerViewFragments[position] == null) {
-                    recyclerViewFragments[position] = RecyclerViewFragment.newInstance(position);
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("pagePosition", position);
+                    recyclerViewFragments[position] = RecyclerViewFragment.newInstance(bundle);
+                    recyclerViewFragments[position].setController(mController);
                 }
                 return recyclerViewFragments[position];
             }
@@ -128,15 +131,27 @@ public class HomeFragment extends Fragment implements HomeContract.View {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mController.addNewPost();
+                mController.addPost();
             }
         });
 
         return root;
     }
 
+    public void showViewPost(String id) {
+        Intent intent = new Intent(getContext(), PostActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putInt("requestCode", PostActivity.REQUEST_VIEW_POST);
+        bundle.putString("postId", id);
+        intent.putExtras(bundle);
+        startActivityForResult(intent, PostActivity.REQUEST_VIEW_POST);
+    }
+
     public void showAddPost() {
         Intent intent = new Intent(getContext(), PostActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putInt("requestCode", PostActivity.REQUEST_ADD_POST);
+        intent.putExtras(bundle);
         startActivityForResult(intent, PostActivity.REQUEST_ADD_POST);
     }
 

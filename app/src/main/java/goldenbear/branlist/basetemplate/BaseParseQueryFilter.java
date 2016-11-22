@@ -29,5 +29,5 @@ public abstract class BaseParseQueryFilter {
         return whereEqualToMap;
     }
 
-    abstract public String getObjectName();
+    public abstract String getObjectName();
 }

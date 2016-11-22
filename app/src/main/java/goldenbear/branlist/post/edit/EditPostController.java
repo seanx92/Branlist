@@ -2,6 +2,8 @@ package goldenbear.branlist.post.edit;
 
 import android.support.annotation.NonNull;
 
+import java.util.UUID;
+
 import goldenbear.branlist.data.post.Post;
 import goldenbear.branlist.data.post.PostType;
 import goldenbear.branlist.utils.ParseHelper;
@@ -24,7 +26,8 @@ public class EditPostController implements EditPostContract.Controller {
 
     public void savePost(String title, String description, PostType type) {
         String currentUserName = ParseHelper.getCurrentUser().getUsername();
-        Post newPost = new Post(title, description, type, currentUserName);
+        String id = UUID.randomUUID().toString();
+        Post newPost = new Post(id, title, description, type, currentUserName);
         ParseHelper.saveObject(newPost);
     }
 }

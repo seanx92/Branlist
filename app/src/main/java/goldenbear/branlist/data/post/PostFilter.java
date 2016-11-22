@@ -11,12 +11,19 @@ public class PostFilter extends BaseParseQueryFilter {
         addWhereEqualToConstraint("type", postType.name());
     }
 
+    public void setIdFilter(String postId) {
+        addWhereEqualToConstraint("id", postId);
+    }
+
     public void setOrderByDescending(String key) {
         addOrderByDescending(key);
+    }
+
+    public Class getObjectClass() {
+        return Post.class;
     }
 
     public String getObjectName() {
         return "Post";
     }
-
 }

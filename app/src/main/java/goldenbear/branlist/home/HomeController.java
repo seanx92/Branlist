@@ -17,8 +17,13 @@ public class HomeController implements HomeContract.Controller {
         mHomeView.setController(this);
     }
 
-    public void addNewPost() {
+    public void addPost() {
+
         mHomeView.showAddPost();
+    }
+
+    public void viewPost(String id) {
+        mHomeView.showViewPost(id);
     }
 
     @Override
@@ -30,6 +35,8 @@ public class HomeController implements HomeContract.Controller {
             if (resultCode == Activity.RESULT_OK) {
                 mHomeView.refreshPost();
             }
+        } else if (requestCode == PostActivity.REQUEST_VIEW_POST) {
+
         }
     }
 }
