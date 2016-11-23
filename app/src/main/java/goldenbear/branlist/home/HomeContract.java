@@ -11,6 +11,7 @@ public interface HomeContract {
     interface View extends BaseView<Controller> {
         void showAddPost();
 
+        void initializeFragments();
         void showViewPost(String id);
         void refreshPost();
     }
@@ -18,7 +19,12 @@ public interface HomeContract {
     interface Controller extends BaseController {
         void addPost();
 
+        String getSubmitter();
+
+        void setSubmitter(String submitter);
         void viewPost(String id);
         void result(int requestCode, int resultCode);
+
+        void deletePost(String postId);
     }
 }

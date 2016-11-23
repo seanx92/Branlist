@@ -40,18 +40,18 @@
                 android:textSize="14dp" />
 
             <TextView
-                android:id="@+id/entry_date"
+                android:id="@+id/date_entry"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:paddingRight="8dp"
                 android:paddingTop="6dp"
-                android:text="2016/11/22"
+                android:text="    -  -  "
                 android:textColor="@color/textColorSecondaryInverse"
                 android:textSize="12dp" />
 
             <TextView
-                android:id="@+id/submitter_entry"
+                android:id="@+id/description_entry"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/title_entry"

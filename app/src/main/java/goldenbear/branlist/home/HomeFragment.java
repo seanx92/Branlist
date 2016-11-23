@@ -71,32 +71,7 @@ public class HomeFragment extends Fragment implements HomeContract.View {
             actionBar.setHomeButtonEnabled(true);
         }
 
-        mViewPager.getViewPager().setAdapter(new FragmentStatePagerAdapter(getFragmentManager()) {
-            @Override
-            public Fragment getItem(int position) {
-                if (recyclerViewFragments[position] == null) {
-                    Bundle bundle = new Bundle();
-                    bundle.putInt("pagePosition", position);
-                    recyclerViewFragments[position] = RecyclerViewFragment.newInstance(bundle);
-                    recyclerViewFragments[position].setController(mController);
-                }
-                return recyclerViewFragments[position];
-            }
-
-            @Override
-            public int getCount() {
-                return PostType.values().length + 1;
-            }
-
-            @Override
-            public CharSequence getPageTitle(int position) {
-                if (position == 0) {
-                    return "All";
-                } else {
-                    return PostType.values()[position - 1].toString();
-                }
-            }
-        });
+        initializeFragments();
 
         mViewPager.setMaterialViewPagerListener(new MaterialViewPager.Listener() {
             @Override
@@ -117,7 +92,8 @@ public class HomeFragment extends Fragment implements HomeContract.View {
 
         mViewPager.getViewPager().setOffscreenPageLimit(mViewPager.getViewPager().getAdapter().getCount());
         mViewPager.getPagerTitleStrip().setViewPager(mViewPager.getViewPager());
-        mViewPager.getViewPager().addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+        mViewPager.getViewPager().addOnPageChangeListener(
+                new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
                 currentPage = position;
@@ -162,5 +138,39 @@ public class HomeFragment extends Fragment implements HomeContract.View {
 
     public void refreshPost() {
         recyclerViewFragments[currentPage].refreshPost();
+    }
+
+    public void initializeFragments() {
+        for (int i = 0; i < recyclerViewFragments.length; i++) {
+            recyclerViewFragments[i] = null;
+        }
+        mViewPager.getViewPager().setAdapter(new FragmentStatePagerAdapter(getFragmentManager()) {
+            @Override
+            public Fragment getItem(int position) {
+                if (recyclerViewFragments[position] == null) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("submitter", mController.getSubmitter());
+                    bundle.putInt("pagePosition", position);
+                    recyclerViewFragments[position] = RecyclerViewFragment.newInstance(bundle);
+                    recyclerViewFragments[position].setController(mController);
+                }
+                return recyclerViewFragments[position];
+            }
+
+            @Override
+            public int getCount() {
+                return PostType.values().length + 1;
+            }
+
+            @Override
+            public CharSequence getPageTitle(int position) {
+                if (position == 0) {
+                    return "All";
+                } else {
+                    return PostType.values()[position - 1].toString();
+                }
+            }
+        });
+        mViewPager.getViewPager().setCurrentItem(0);
     }
 }

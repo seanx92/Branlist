@@ -65,13 +65,13 @@ public class HomeActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
                     case R.id.nav_home:
-                        // do something
+                        mHomeController.setSubmitter(null);
                         break;
                     case R.id.nav_myprofiles:
                         // do something
                         break;
                     case R.id.nav_myposts:
-                        // do something
+                        mHomeController.setSubmitter(ParseHelper.getCurrentUser().getUsername());
                         break;
                     case R.id.nav_about_us:
                         // do something

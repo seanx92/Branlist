@@ -10,10 +10,13 @@ import android.widget.TextView;
 import com.parse.ParseObject;
 import com.parse.ParseQueryAdapter;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import goldenbear.branlist.R;
 import goldenbear.branlist.basetemplate.BaseParseQueryFilter;
+import goldenbear.branlist.data.post.Post;
 import goldenbear.branlist.utils.ParseHelper;
 
 /**
@@ -43,8 +46,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 TextView titleView = (TextView) v.findViewById(R.id.title_entry);
                 titleView.setText(object.getString("title"));
 
-                TextView submitterView = (TextView) v.findViewById(R.id.submitter_entry);
-                submitterView.setText(object.getString("submitter"));
+                TextView descriptionView = (TextView) v.findViewById(R.id.description_entry);
+                String description = object.getString("description");
+                descriptionView.setText(Post.getBriefDescription(description, 30));
+
+                TextView dateView = (TextView) v.findViewById(R.id.date_entry);
+                Date updatedAt = object.getUpdatedAt();
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                dateView.setText(dateFormat.format(updatedAt));
                 return v;
             }
         };

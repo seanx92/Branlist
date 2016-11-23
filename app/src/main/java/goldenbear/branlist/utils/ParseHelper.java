@@ -64,6 +64,16 @@ public class ParseHelper {
         }
     }
 
+    public static void deleteObject(String objectName, String objectId) {
+        ParseQuery parseQuery = new ParseQuery(objectName);
+        try {
+            ParseObject parseObject = parseQuery.get(objectId);
+            parseObject.deleteInBackground();
+        } catch (ParseException e) {
+            Log.e("ParseException", e.toString());
+        }
+    }
+
     public static void logout() {
         ParseUser.logOut();
     }

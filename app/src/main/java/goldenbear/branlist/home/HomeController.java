@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.support.annotation.NonNull;
 
 import goldenbear.branlist.post.PostActivity;
+import goldenbear.branlist.utils.ParseHelper;
 
 /**
  * Created by metaphoenix on 11/17/16.
@@ -11,6 +12,7 @@ import goldenbear.branlist.post.PostActivity;
 public class HomeController implements HomeContract.Controller {
 
     private final HomeContract.View mHomeView;
+    private String mSubmitter;
 
     public HomeController(@NonNull HomeContract.View homeView) {
         mHomeView = homeView;
@@ -26,6 +28,19 @@ public class HomeController implements HomeContract.Controller {
         mHomeView.showViewPost(id);
     }
 
+    public String getSubmitter() {
+        return mSubmitter;
+    }
+
+    public void setSubmitter(String submitter) {
+        if ((mSubmitter == null && submitter == null) ||
+                (mSubmitter != null && mSubmitter.equals(submitter))) {
+            return;
+        }
+        mSubmitter = submitter;
+        mHomeView.initializeFragments();
+    }
+
     @Override
     public void start() {
     }
@@ -38,5 +53,10 @@ public class HomeController implements HomeContract.Controller {
         } else if (requestCode == PostActivity.REQUEST_VIEW_POST) {
 
         }
+    }
+
+    public void deletePost(String postId) {
+        ParseHelper.deleteObject("Post", postId);
+        mHomeView.refreshPost();
     }
 }

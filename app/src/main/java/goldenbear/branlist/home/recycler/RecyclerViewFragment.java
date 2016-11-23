@@ -7,8 +7,11 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -18,6 +21,7 @@ import goldenbear.branlist.R;
 import goldenbear.branlist.data.post.PostFilter;
 import goldenbear.branlist.data.post.PostType;
 import goldenbear.branlist.home.HomeContract;
+import goldenbear.branlist.utils.ParseHelper;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -64,7 +68,11 @@ public class RecyclerViewFragment extends Fragment {
         PostFilter postFilter = new PostFilter();
         int pagePosition = getArguments().getInt("pagePosition");
         if (pagePosition > 0) {
-            postFilter.setTypeFilter(PostType.getTypeFromPosition(pagePosition));
+            postFilter.setType(PostType.getTypeFromPosition(pagePosition));
+        }
+        final String submitter = getArguments().getString("submitter");
+        if (submitter != null) {
+            postFilter.setSubmitter(submitter);
         }
         postFilter.setOrderByDescending("createdAt");
 
@@ -84,10 +92,30 @@ public class RecyclerViewFragment extends Fragment {
 
                     @Override
                     public void onLongItemClick(View view, int position) {
-                        // do whatever
+                        if (submitter == null ||
+                                !submitter.equals(ParseHelper.getCurrentUser().getUsername())) {
+                            return;
+                        }
+                        final RecyclerViewAdapter.ViewHolder holder =
+                                (RecyclerViewAdapter.ViewHolder) view.getTag();
+                        PopupMenu popupMenu = new PopupMenu(getContext(), view, Gravity.CENTER);
+                        popupMenu.inflate(R.menu.edit_post_menu);
+                        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                            public boolean onMenuItemClick(MenuItem item) {
+                                switch (item.getItemId()) {
+                                    case R.id.edit_post:
+                                        return true;
+                                    case R.id.delete_post:
+                                        mController.deletePost(holder.getId());
+                                        return true;
+                                    default:
+                                        return false;
+                                }
+                            }
+                        });
+                        popupMenu.show();
                     }
-                })
-        );
+        }));
     }
 
     public void refreshPost() {

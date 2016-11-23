@@ -7,12 +7,16 @@ import goldenbear.branlist.basetemplate.BaseParseQueryFilter;
  */
 public class PostFilter extends BaseParseQueryFilter {
 
-    public void setTypeFilter(PostType postType) {
+    public void setType(PostType postType) {
         addWhereEqualToConstraint("type", postType.name());
     }
 
-    public void setIdFilter(String postId) {
+    public void setId(String postId) {
         addWhereEqualToConstraint("id", postId);
+    }
+
+    public void setSubmitter(String submitter) {
+        addWhereEqualToConstraint("submitter", submitter);
     }
 
     public void setOrderByDescending(String key) {

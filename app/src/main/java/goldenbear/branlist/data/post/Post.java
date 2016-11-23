@@ -20,6 +20,15 @@ public final class Post extends BaseParseObject {
         this(null, null, null, null, null);
     }
 
+    public static String getBriefDescription(String description, int maxChars) {
+        description = description.trim();
+        if (description.length() < maxChars) {
+            return description;
+        } else {
+            return description.substring(0, maxChars - 1) + "...";
+        }
+    }
+
     public String getTitle() {
         return (String) keyValueMap.get("title");
     }
@@ -29,13 +38,7 @@ public final class Post extends BaseParseObject {
     }
 
     public String getBriefDescription(int maxChars) {
-        String description = getDescription();
-        description = description.trim();
-        if (description.length() < maxChars) {
-            return description;
-        } else {
-            return description.substring(0, maxChars - 1) + "...";
-        }
+        return getBriefDescription(getDescription(), maxChars);
     }
 
     public PostType getType() {

@@ -31,6 +31,10 @@
     <string name="nav_myposts">My Posts</string>
     <string name="nav_about_us">About Us</string>
 
+    <!-- Long press menu labels -->
+    <string name="menu_edit">Edit</string>
+    <string name="menu_delete">Delete</string>
+
     <!-- Toolbar titles when navigation menu item is selected -->
     <string-array name="nav_item_activity_titles">
         <item>Home</item>
