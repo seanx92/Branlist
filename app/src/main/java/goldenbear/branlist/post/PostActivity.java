@@ -38,13 +38,13 @@ public class PostActivity extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         int requestCode = bundle.getInt("requestCode");
         if (requestCode == REQUEST_ADD_POST) {
-            fillEditPostFragment();
+            inflateEditPostFragment();
         } else if (requestCode == REQUEST_VIEW_POST) {
-            fillViewPostFragment(bundle);
+            inflateViewPostFragment(bundle);
         }
     }
 
-    private void fillViewPostFragment(Bundle bundle) {
+    private void inflateViewPostFragment(Bundle bundle) {
         // Fill the fragment
         ViewPostFragment viewPostFragment =
                 (ViewPostFragment) getSupportFragmentManager().findFragmentById(R.id.contentFrame);
@@ -63,7 +63,7 @@ public class PostActivity extends AppCompatActivity {
         viewPostFragment.setController(mViewPostController);
     }
 
-    private void fillEditPostFragment() {
+    private void inflateEditPostFragment() {
         // Fill the fragment
         EditPostFragment editPostFragment =
                 (EditPostFragment) getSupportFragmentManager().findFragmentById(R.id.contentFrame);

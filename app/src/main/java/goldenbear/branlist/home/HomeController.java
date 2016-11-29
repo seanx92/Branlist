@@ -20,7 +20,6 @@ public class HomeController implements HomeContract.Controller {
     }
 
     public void addPost() {
-
         mHomeView.showAddPost();
     }
 
