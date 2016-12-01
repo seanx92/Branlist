@@ -1,23 +1,63 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="goldenbear.branlist.userprofile.UserProfileFragment">
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
 
-    <LinearLayout
+    <data>
+
+        <import type="goldenbear.branlist.data.user.User" />
+
+        <variable
+            name="user"
+            type="User" />
+    </data>
+
+    <FrameLayout xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:orientation="vertical"
-        android:paddingBottom="@dimen/activity_vertical_margin"
-        android:paddingTop="@dimen/activity_vertical_margin">
+        tools:context="goldenbear.branlist.userprofile.UserProfileFragment">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
+            <include
+                layout="@layout/user_profile_header"
+                bind:user="@{user}"></include>
 
-    </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:orientation="vertical">
 
-</FrameLayout>
+                <EditText
+                    android:id="@+id/user_profile_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:drawableLeft="@drawable/ic_email_black_24dp"
+                    android:drawablePadding="16dp"
+                    android:focusable="false"
+                    android:inputType="textEmailAddress"
+                    android:padding="16dp"
+                    android:text='@={user.keyValueMap["email"]}'
+                    android:textColor="@color/textColorPrimaryInverse" />
+
+                <EditText
+                    android:id="@+id/user_profile_phone_number"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:drawableLeft="@drawable/ic_contact_phone_black_24dp"
+                    android:drawablePadding="16dp"
+                    android:focusable="false"
+                    android:inputType="phone"
+                    android:padding="16dp"
+                    android:text='@={user.keyValueMap["phoneNumber"]}'
+                    android:textColor="@color/textColorPrimaryInverse" />
+            </LinearLayout>
+        </LinearLayout>
+    </FrameLayout>
+</layout>
+

@@ -18,6 +18,7 @@ public class PostActivity extends AppCompatActivity {
 
     public static final int REQUEST_ADD_POST = 1;
     public static final int REQUEST_VIEW_POST = 2;
+    public static final int REQUEST_EDIT_POST = 3;
     private ActionBar actionBar;
 
     private EditPostController mEditPostController;
@@ -38,9 +39,11 @@ public class PostActivity extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         int requestCode = bundle.getInt("requestCode");
         if (requestCode == REQUEST_ADD_POST) {
-            inflateEditPostFragment();
+            inflateEditPostFragment(bundle);
         } else if (requestCode == REQUEST_VIEW_POST) {
             inflateViewPostFragment(bundle);
+        } else if (requestCode == REQUEST_EDIT_POST) {
+            inflateEditPostFragment(bundle);
         }
     }
 
@@ -63,13 +66,13 @@ public class PostActivity extends AppCompatActivity {
         viewPostFragment.setController(mViewPostController);
     }
 
-    private void inflateEditPostFragment() {
+    private void inflateEditPostFragment(Bundle bundle) {
         // Fill the fragment
         EditPostFragment editPostFragment =
                 (EditPostFragment) getSupportFragmentManager().findFragmentById(R.id.contentFrame);
 
         if (editPostFragment == null) {
-            editPostFragment = EditPostFragment.newInstance();
+            editPostFragment = EditPostFragment.newInstance(bundle);
 
             actionBar.setTitle("New Post");
             ActivityUtils.addFragmentToActivity(getSupportFragmentManager(),

@@ -1,9 +1,10 @@
 package goldenbear.branlist.basetemplate;
 
+import android.databinding.ObservableArrayMap;
+
 import com.parse.ParseObject;
 
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -11,14 +12,24 @@ import java.util.Map;
  */
 
 abstract public class BaseParseObject {
-    protected Map<String, Object> keyValueMap = new HashMap<>();
+    protected final String defaultValue = "";
+
+    public ObservableArrayMap<String, Object> keyValueMap = new ObservableArrayMap<>();
 
     public Map<String, Object> getMap() {
         return keyValueMap;
     }
 
+    public boolean hasObjectId() {
+        return keyValueMap.containsKey("objectId");
+    }
+
     public String getObjectId() {
         return (String) keyValueMap.get("objectId");
+    }
+
+    public void setObjectId(String objectId) {
+        keyValueMap.put("objectId", objectId);
     }
 
     public Date getCreatedDate() {

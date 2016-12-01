@@ -58,4 +58,8 @@ public class HomeController implements HomeContract.Controller {
         ParseHelper.deleteObject("Post", postId);
         mHomeView.refreshPost();
     }
+
+    public void editPost(String postId) {
+        mHomeView.showEditPost(postId);
+    }
 }

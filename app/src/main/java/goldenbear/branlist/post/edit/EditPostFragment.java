@@ -1,6 +1,7 @@
 package goldenbear.branlist.post.edit;
 
 import android.app.Activity;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -14,7 +15,10 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import goldenbear.branlist.R;
+import goldenbear.branlist.data.post.Post;
 import goldenbear.branlist.data.post.PostType;
+import goldenbear.branlist.databinding.EditPostFragBinding;
+import goldenbear.branlist.post.PostActivity;
 
 /**
  * Created by metaphoenix on 11/17/16.
@@ -27,12 +31,18 @@ public class EditPostFragment extends Fragment implements EditPostContract.View 
 
     private Spinner mType;
 
+    private Post mPost;
+
+    private int requestCode;
+
     public EditPostFragment() {
         // Required empty public constructor
     }
 
-    public static EditPostFragment newInstance() {
-        return new EditPostFragment();
+    public static EditPostFragment newInstance(Bundle bundle) {
+        EditPostFragment fragment = new EditPostFragment();
+        fragment.setArguments(bundle);
+        return fragment;
     }
 
     @Override
@@ -53,9 +63,12 @@ public class EditPostFragment extends Fragment implements EditPostContract.View 
         Button mSaveButton = (Button) getActivity().findViewById(R.id.edit_post_save);
         mSaveButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                PostType type = (PostType) mType.getSelectedItem();
-                mController.savePost(mTitle.getText().toString(),
-                        mDescription.getText().toString(), type);
+                //PostType type = (PostType) mType.getSelectedItem();
+                if (requestCode == PostActivity.REQUEST_ADD_POST) {
+                    mController.savePost();
+                } else if (requestCode == PostActivity.REQUEST_EDIT_POST) {
+                    mController.updatePost();
+                }
                 getActivity().setResult(Activity.RESULT_OK);
                 getActivity().finish();
             }
@@ -70,11 +83,29 @@ public class EditPostFragment extends Fragment implements EditPostContract.View 
         });
     }
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        requestCode = getArguments().getInt("requestCode");
+        mPost = new Post();
+        mController.setPost(mPost);
+        if (requestCode == PostActivity.REQUEST_ADD_POST) {
+        } else if (requestCode == PostActivity.REQUEST_EDIT_POST) {
+            mPost.setObjectId(getArguments().getString("postId"));
+            mController.loadData();
+        }
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.edit_post_frag, container, false);
+        //View root = inflater.inflate(R.layout.edit_post_frag, container, false);
+        EditPostFragBinding binding = DataBindingUtil.inflate(inflater,
+                R.layout.edit_post_frag, container, false);
+        View root = binding.getRoot();
+        binding.setPost(mPost);
+
         mTitle = (TextView) root.findViewById(R.id.edit_post_title);
         mDescription = (TextView) root.findViewById(R.id.edit_post_description);
 

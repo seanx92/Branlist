@@ -104,6 +104,7 @@ public class RecyclerViewFragment extends Fragment {
                             public boolean onMenuItemClick(MenuItem item) {
                                 switch (item.getItemId()) {
                                     case R.id.edit_post:
+                                        mController.editPost(holder.getId());
                                         return true;
                                     case R.id.delete_post:
                                         mController.deletePost(holder.getId());

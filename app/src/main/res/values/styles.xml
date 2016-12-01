@@ -17,10 +17,8 @@
 
         <item name="actionBarTheme">@style/AppTheme.ActionBarTheme</item>
 
-        <item name="android:windowTranslucentStatus" tools:targetApi="21">true</item>
         <item name="android:navigationBarColor" tools:targetApi="21">@color/navigationBarColor
         </item>
-        <item name="android:windowDrawsSystemBarBackgrounds" tools:targetApi="21">true</item>
     </style>
 
     <style name="AppTheme.ActionBarTheme" parent="@style/ThemeOverlay.AppCompat.ActionBar">

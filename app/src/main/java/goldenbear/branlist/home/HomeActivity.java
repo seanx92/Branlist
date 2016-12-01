@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import goldenbear.branlist.R;
 import goldenbear.branlist.login.DispatchActivity;
+import goldenbear.branlist.userprofile.UserProfileActivity;
 import goldenbear.branlist.utils.ActivityUtils;
 import goldenbear.branlist.utils.ParseHelper;
 
@@ -59,6 +60,14 @@ public class HomeActivity extends AppCompatActivity {
         mHomeController = new HomeController(homeFragment);
     }
 
+    private void showUserProfilePage(String userName) {
+        Intent intent = new Intent(this, UserProfileActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("userName", userName);
+        intent.putExtras(bundle);
+        startActivityForResult(intent, UserProfileActivity.REQUEST_MY_PROFILE);
+    }
+
     private void setupNavigationView() {
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -68,6 +77,7 @@ public class HomeActivity extends AppCompatActivity {
                         mHomeController.setSubmitter(null);
                         break;
                     case R.id.nav_myprofiles:
+                        showUserProfilePage(ParseHelper.getCurrentUser().getUsername());
                         // do something
                         break;
                     case R.id.nav_myposts:

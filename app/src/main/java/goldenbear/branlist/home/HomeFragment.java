@@ -123,6 +123,15 @@ public class HomeFragment extends Fragment implements HomeContract.View {
         startActivityForResult(intent, PostActivity.REQUEST_VIEW_POST);
     }
 
+    public void showEditPost(String id) {
+        Intent intent = new Intent(getContext(), PostActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putInt("requestCode", PostActivity.REQUEST_EDIT_POST);
+        bundle.putString("postId", id);
+        intent.putExtras(bundle);
+        startActivityForResult(intent, PostActivity.REQUEST_EDIT_POST);
+    }
+
     public void showAddPost() {
         Intent intent = new Intent(getContext(), PostActivity.class);
         Bundle bundle = new Bundle();
