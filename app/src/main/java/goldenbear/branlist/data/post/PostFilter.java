@@ -19,6 +19,11 @@ public class PostFilter extends BaseParseQueryFilter {
         addWhereEqualToConstraint("submitter", submitter);
     }
 
+    public void setQuery(String query) {
+        addWhereContainsConstraint("title", query);
+        addWhereContainsConstraint("description", query);
+    }
+
     public void setOrderByDescending(String key) {
         addOrderByDescending(key);
     }

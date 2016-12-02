@@ -9,6 +9,8 @@ import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
 import com.parse.ParseUser;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import goldenbear.branlist.basetemplate.BaseParseObject;
@@ -82,6 +84,17 @@ public class ParseHelper {
                 new ParseQueryAdapter.QueryFactory<ParseObject>() {
                     public ParseQuery<ParseObject> create() {
                         ParseQuery query = new ParseQuery(filter.getObjectName());
+                        Map<String, String> whereContainsMap = filter.getWhereContainsMap();
+                        if (whereContainsMap != null) {
+                            List<ParseQuery<ParseObject>> queries = new ArrayList<ParseQuery<ParseObject>>();
+                            for (Map.Entry<String, String> entry : whereContainsMap.entrySet()) {
+                                ParseQuery tempQuery = new ParseQuery(filter.getObjectName());
+                                tempQuery.whereContains(entry.getKey(), entry.getValue());
+                                Log.e(entry.getKey().toString(), entry.getValue().toString());
+                                queries.add(tempQuery);
+                            }
+                            query = ParseQuery.or(queries);
+                        }
                         Map<String, Object> whereEqualsToMap = filter.getWhereEqualToMap();
                         if (whereEqualsToMap != null) {
                             for (Map.Entry<String, Object> entry : whereEqualsToMap.entrySet()) {

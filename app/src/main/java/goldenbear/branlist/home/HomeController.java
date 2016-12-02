@@ -12,7 +12,7 @@ import goldenbear.branlist.utils.ParseHelper;
 public class HomeController implements HomeContract.Controller {
 
     private final HomeContract.View mHomeView;
-    private String mSubmitter;
+    private String mSubmitter, mQuery;
 
     public HomeController(@NonNull HomeContract.View homeView) {
         mHomeView = homeView;
@@ -40,6 +40,10 @@ public class HomeController implements HomeContract.Controller {
         mHomeView.initializeFragments();
     }
 
+    public String getQuery() {
+        return mQuery;
+    }
+
     @Override
     public void start() {
     }
@@ -57,6 +61,11 @@ public class HomeController implements HomeContract.Controller {
     public void deletePost(String postId) {
         ParseHelper.deleteObject("Post", postId);
         mHomeView.refreshPost();
+    }
+
+    public void searchPost(String query) {
+        mQuery = query;
+        mHomeView.initializeFragments();
     }
 
     public void editPost(String postId) {

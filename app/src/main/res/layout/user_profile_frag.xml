@@ -3,7 +3,6 @@
     xmlns:bind="http://schemas.android.com/apk/res-auto">
 
     <data>
-
         <import type="goldenbear.branlist.data.user.User" />
 
         <variable

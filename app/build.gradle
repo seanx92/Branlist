@@ -25,6 +25,7 @@ android {
 
 repositories {
     mavenCentral()
+    maven { url "https://jitpack.io" }
 }
 
 dependencies {
@@ -43,5 +44,6 @@ dependencies {
     compile 'com.facebook.android:facebook-android-sdk:4.+'
     compile 'com.parse:parsefacebookutils-v4-android:1.10.4@aar'
     compile 'de.hdodenhof:circleimageview:2.1.0'
+    compile 'com.github.Plumillon:ChipView:1.2.0'
     testCompile 'junit:junit:4.12'
 }

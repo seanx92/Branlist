@@ -74,6 +74,10 @@ public class RecyclerViewFragment extends Fragment {
         if (submitter != null) {
             postFilter.setSubmitter(submitter);
         }
+        final String query = getArguments().getString("query");
+        if (query != null && query.length() > 0) {
+            postFilter.setQuery(query);
+        }
         postFilter.setOrderByDescending("createdAt");
 
         mAdapter = new RecyclerViewAdapter(this.getContext(), mRecyclerView, postFilter);

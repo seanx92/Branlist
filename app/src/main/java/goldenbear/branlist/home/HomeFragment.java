@@ -85,6 +85,12 @@ public class HomeFragment extends Fragment implements HomeContract.View {
                         return HeaderDesign.fromColorResAndUrl(R.color.cyan, "");
                     case 3:
                         return HeaderDesign.fromColorResAndUrl(R.color.red, "");
+                    case 4:
+                        return HeaderDesign.fromColorResAndUrl(R.color.colorPrimaryDark, "");
+                    case 5:
+                        return HeaderDesign.fromColorResAndUrl(R.color.lime, "");
+                    case 6:
+                        return HeaderDesign.fromColorResAndUrl(R.color.black, "");
                 }
                 return null;
             }
@@ -159,6 +165,7 @@ public class HomeFragment extends Fragment implements HomeContract.View {
                 if (recyclerViewFragments[position] == null) {
                     Bundle bundle = new Bundle();
                     bundle.putString("submitter", mController.getSubmitter());
+                    bundle.putString("query", mController.getQuery());
                     bundle.putInt("pagePosition", position);
                     recyclerViewFragments[position] = RecyclerViewFragment.newInstance(bundle);
                     recyclerViewFragments[position].setController(mController);

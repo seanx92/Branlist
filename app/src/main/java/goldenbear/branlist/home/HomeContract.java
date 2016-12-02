@@ -13,7 +13,6 @@ public interface HomeContract {
 
         void initializeFragments();
         void showViewPost(String id);
-
         void showEditPost(String id);
         void refreshPost();
     }
@@ -24,11 +23,15 @@ public interface HomeContract {
         String getSubmitter();
 
         void setSubmitter(String submitter);
+
+        String getQuery();
+
         void viewPost(String id);
         void result(int requestCode, int resultCode);
 
         void deletePost(String postId);
 
+        void searchPost(String query);
         void editPost(String postId);
     }
 }
